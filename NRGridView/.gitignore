@@ -1,0 +1,27 @@
+# Xcode useless directories
+build/
+*.xuserdatad
+
+# OSX files
+.DS_Store
+NRGridView.xcworkspace/xcuserdata/ldesroziers.xcuserdatad/UserInterfaceState.xcuserstate
+
+NRGridView.xcworkspace/xcuserdata/ldesroziers.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
+
+NRGridView.xcworkspace/xcuserdata/ldesroziers.xcuserdatad/WorkspaceSettings.xcsettings
+
+NRGridView/NRGridView.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+NRGridView/NRGridView.xcodeproj/project.xcworkspace/xcuserdata/ldesroziers.xcuserdatad/UserInterfaceState.xcuserstate
+
+NRGridView/NRGridView.xcodeproj/project.xcworkspace/xcuserdata/ldesroziers.xcuserdatad/WorkspaceSettings.xcsettings
+
+NRGridView/NRGridView.xcodeproj/xcuserdata/ldesroziers.xcuserdatad/xcschemes/NRGridView Universal.xcscheme
+
+NRGridView/NRGridView.xcodeproj/xcuserdata/ldesroziers.xcuserdatad/xcschemes/NRGridView.xcscheme
+
+NRGridView/NRGridView.xcodeproj/xcuserdata/ldesroziers.xcuserdatad/xcschemes/xcschememanagement.plist
+
+NRGridViewSampleApp/NRGridViewSampleApp.xcodeproj/xcuserdata/ldesroziers.xcuserdatad/xcschemes/NRGridViewSampleApp.xcscheme
+
+NRGridViewSampleApp/NRGridViewSampleApp.xcodeproj/xcuserdata/ldesroziers.xcuserdatad/xcschemes/xcschememanagement.plist
