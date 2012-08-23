@@ -12,7 +12,7 @@
 
 @dynamic textField;
 - (UITextField*)textField {
-    return self.subviews[1];
+    return [self.subviews objectAtIndex:1];
 }
 
 @end

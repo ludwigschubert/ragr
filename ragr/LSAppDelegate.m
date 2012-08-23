@@ -6,10 +6,20 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+//Header
 #import "LSAppDelegate.h"
 
+//Frameworks
+#import "Rageface+Restkit.h"
+
+//Own Classes
 #import "LSViewController.h"
-#import "NRGridView.h"
+#import "DataManager.h"
+
+
+@interface LSAppDelegate ()
+
+@end
 
 @implementation LSAppDelegate
 
@@ -17,15 +27,16 @@
 @synthesize viewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{   
+    self.dataManager = [DataManager new];
+    
     [self customizeUI];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
- 
     self.viewController = [[LSViewController alloc] init];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -39,10 +50,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-     */
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -106,9 +114,9 @@
     }
 }
 
-- (void) unreachable
-{
-    [NRGridView class]; //This prevents Linker from removing this class
-}
+//- (void) unreachable
+//{
+//    [NRGridView class]; //This prevents Linker from removing this class
+//}
 
 @end

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/NYXProgressiveImageViewDelegate.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/NYXProgressiveImageViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>
+			
+			<NodeRef refid="10"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/NYXProgressiveImageViewDelegate/imageDidLoadWithImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>- (void)imageDidLoadWithImage:(UIImage *)img</Declaration>
+			
+			
+			<Anchor>//api/name/imageDidLoadWithImage:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/NYXProgressiveImageViewDelegate/imageDownloadCompletedWithImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>- (void)imageDownloadCompletedWithImage:(UIImage *)img</Declaration>
+			
+			
+			<Anchor>//api/name/imageDownloadCompletedWithImage:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/NYXProgressiveImageViewDelegate/imageDownloadFailedWithData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>- (void)imageDownloadFailedWithData:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/imageDownloadFailedWithData:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

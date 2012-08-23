@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIImage+NYX_Rotating.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIImage(NYX_Rotating)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>
+			
+			<NodeRef refid="8"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/rotateInRadians:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)rotateInRadians:(float)radians</Declaration>
+			
+			
+			<Anchor>//api/name/rotateInRadians:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/rotateInDegrees:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)rotateInDegrees:(float)degrees</Declaration>
+			
+			
+			<Anchor>//api/name/rotateInDegrees:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/rotateImagePixelsInRadians:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)rotateImagePixelsInRadians:(float)radians</Declaration>
+			
+			
+			<Anchor>//api/name/rotateImagePixelsInRadians:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/rotateImagePixelsInDegrees:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)rotateImagePixelsInDegrees:(float)degrees</Declaration>
+			
+			
+			<Anchor>//api/name/rotateImagePixelsInDegrees:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/verticalFlip</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)verticalFlip</Declaration>
+			
+			
+			<Anchor>//api/name/verticalFlip</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Rotating)/horizontalFlip</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Rotating.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)horizontalFlip</Declaration>
+			
+			
+			<Anchor>//api/name/horizontalFlip</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

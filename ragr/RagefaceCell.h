@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NRGridViewCell.h"
+
+#import "ImageManager.h"
 
 @class Rageface;
 
-@interface RagefaceCell : NRGridViewCell
+@interface RagefaceCell : UICollectionViewCell <ImageManagerDelegate>
 
 @property (nonatomic, strong) Rageface *rageface;
 

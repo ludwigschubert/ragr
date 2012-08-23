@@ -11,7 +11,6 @@
 
 #import "LSViewController.h"
 #import "NRGridViewCell.h"
-#import "DataStore.h"
 #import "Rageface.h"
 #import "RagefaceCell.h"
 #import "LSSearchBar.h"
@@ -22,13 +21,17 @@ typedef enum {
     CellSize6Columns = 1,
     CellSize5Columns = 2,
     CellSize4Columns = 3,
-    CellSize3Columns = 4
+    CellSize3Columns = 4,
+    CellSize2Columns = 5,
+    CellSize1Columns = 6
 } CellSize;
 
 CGSize CGSizeFromCellSize(CellSize cellSize);
 CGSize CGSizeFromCellSize(CellSize cellSize)
 {
     switch (cellSize) {
+        case CellSize1Columns:   return CGSizeMake(300, 300);
+        case CellSize2Columns:   return CGSizeMake(150, 150);
         case CellSize3Columns:   return CGSizeMake(100, 100);
         case CellSize4Columns:    return CGSizeMake( 75,  75);
         case CellSize5Columns: return CGSizeMake( 60,  60);
@@ -41,6 +44,9 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 
 
 @interface LSViewController ()
+
+@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, strong) NSFetchedResultsController *ragefacesFRC;
 
 @property (nonatomic, assign) BOOL searchIsActive;
 @property (nonatomic, strong) LSSearchBar *searchBar;
@@ -57,228 +63,6 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 @end
 
 @implementation LSViewController
-
-#pragma mark - Properties
-
-@synthesize gridView;
-@synthesize logoHeaderView;
-@synthesize searchBar;
-@synthesize settingsButton;
-@synthesize filteredData;
-@synthesize searchIsActive;
-@synthesize animationImageView;
-@synthesize queue;
-@synthesize pinchGR;
-@synthesize currentCellSize;
-
-#pragma mark - Grid View Datasource
-
-- (NSInteger)numberOfSectionsInGridView:(NRGridView *)gridView
-{
-    if (self.searchIsActive) {
-        return 1;
-    } else {
-        return 1;     //FIRST RELEASE
-    }
-}
-
-- (NSInteger)gridView:(NRGridView*)gridView numberOfItemsInSection:(NSInteger)section
-{
-    //return 0; //For Screenshotting :)
-    
-    if (self.searchIsActive) {
-        return self.filteredData.count;
-    } else {
-        if (section == 0) {
-            return [[DataStore sharedInstance] storedData].count;
-        } else if (section == 1) {
-            
-        }
-    }
-    
-    NSAssert(NO, @"More than two sections; this wasn't planned O_o"); return 0;
-}
-
-- (NRGridViewCell*)gridView:(NRGridView*)gridView cellForItemAtIndexPath:(NSIndexPath*)indexPath
-{
-    RagefaceCell* cell;
-    {
-        NSString *identifier = [RagefaceCell cellIdentifier];
-        cell = (RagefaceCell*)[self.gridView dequeueReusableCellWithIdentifier:identifier];
-        
-        if(cell == nil){
-            cell = [[RagefaceCell alloc] initWithReuseIdentifier:identifier];
-        }
-    } // Get Cell
-    
-    Rageface *rageface;
-    if (self.searchIsActive) {
-        rageface = [self.filteredData objectAtIndex:indexPath.row];
-    } else {
-        rageface = [[[DataStore sharedInstance] storedData] objectAtIndex:indexPath.row];
-    }
-    
-    cell.rageface = rageface;
-    
-    return cell;
-}
-
-- (UIView*)gridView:(NRGridView*)gridView viewForHeaderInSection:(NSInteger)section
-{
-    return nil; //FIRST RELEASE
-    
-    UIImage *sectionHeaderImage;
-    
-    if (searchIsActive) {
-        return nil;
-    } else {
-        if (section == 1) {
-            sectionHeaderImage = [[UIImage imageNamed:@"favoritesHeaderBackground"] stretchableImageWithLeftCapWidth:100 topCapHeight:0];
-        } else {
-            sectionHeaderImage = [[UIImage imageNamed:@"allRagefacesHeaderBackground"] stretchableImageWithLeftCapWidth:100 topCapHeight:0];
-        } 
-    }
-    
-    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:sectionHeaderImage];
-    return headerImageView;
-}
-
-- (CGFloat)gridView:(NRGridView*)gridView heightForHeaderInSection:(NSInteger)section
-{
-    return 0; //FIRST RELEASE
-    
-    if (searchIsActive) {
-        return 0;
-    } else {
-        return 30;
-    }
-    
-}
-
-
-#pragma mark - Grid View Delegate
-
-- (void)gridView:(NRGridView*)aGridView didSelectCellAtIndexPath:(NSIndexPath*)indexPath
-{
-    {
-        NSAssert(aGridView == self.gridView, @"Mixed up Gridviews");
-    } // Preconditions
-    
-    [self.gridView deselectCellAtIndexPath:indexPath animated:NO];
-    
-    NRGridViewCell* cell = [self.gridView cellAtIndexPath:indexPath];
-    
-    Rageface *rageface;
-    if (self.searchIsActive) {
-        rageface = [self.filteredData objectAtIndex:indexPath.row];
-    } else {
-        rageface = [[[DataStore sharedInstance] storedData] objectAtIndex:indexPath.row];
-    }
-    
-    {
-        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        [pasteboard setData:UIImagePNGRepresentation(rageface.fullResolutionImage)
-          forPasteboardType:(NSString*)kUTTypePNG];
-    } // Copy to clipboard
-    
-    rageface.timesCopied++;
-    
-    {
-        UIImageView *animationView = [[UIImageView alloc] initWithFrame:cell.imageView.frame];
-        animationView.contentMode = UIViewContentModeScaleAspectFit;
-        animationView.image = rageface.fullResolutionImage;
-        animationView.center = [self.view convertPoint:cell.center fromView:self.gridView];
-        [self.view addSubview:animationView];
-        
-        cell.alpha = 0.0;
-        [UIView animateWithDuration:0.67 
-                              delay:0 
-                            options:UIViewAnimationOptionCurveEaseIn 
-                         animations:^{
-                             animationView.layer.transform = CATransform3DMakeScale(8, 8, 1);
-                             animationView.alpha = 0.0;
-                         } completion:^(BOOL finished) {
-                             [animationView removeFromSuperview];
-                             
-                             {   
-                                 cell.alpha = 1.0;
-                                 CAKeyframeAnimation *animation = [CAKeyframeAnimation
-                                                                   animationWithKeyPath:@"transform"];
-                                 
-                                 CATransform3D scale1 = CATransform3DMakeScale(0.01, 0.01, 1);
-                                 CATransform3D scale2 = CATransform3DMakeScale(1.2, 1.2, 1);
-                                 CATransform3D scale3 = CATransform3DMakeScale(0.85, 0.85, 1);
-                                 CATransform3D scale4 = CATransform3DMakeScale(1.0, 1.0, 1);
-                                 
-                                 NSArray *frameValues = [NSArray arrayWithObjects:
-                                                         [NSValue valueWithCATransform3D:scale1],
-                                                         [NSValue valueWithCATransform3D:scale2],
-                                                         [NSValue valueWithCATransform3D:scale3],
-                                                         [NSValue valueWithCATransform3D:scale4],
-                                                         nil];
-                                 [animation setValues:frameValues];
-                                 
-                                 NSArray *frameTimes = [NSArray arrayWithObjects:
-                                                        [NSNumber numberWithFloat:0.0],
-                                                        [NSNumber numberWithFloat:0.5],
-                                                        [NSNumber numberWithFloat:0.9],
-                                                        [NSNumber numberWithFloat:1.0],
-                                                        nil];    
-                                 [animation setKeyTimes:frameTimes];
-                                 
-                                 animation.fillMode = kCAFillModeRemoved;
-                                 animation.removedOnCompletion = YES;
-                                 animation.duration = 0.3;
-                                 [cell.layer addAnimation:animation forKey:@"Recharging"];
-                                
-                             } // "Recharge" Pop-In animation
-                         }];
-        
-    } // Fire Copy Animation
-    
-    [LSSound play:@"copy.caf"];
-    
-}
-
-- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
-{
-    [self.animationImageView removeFromSuperview];
-    self.animationImageView = nil;
-}
-
-- (void)gridView:(NRGridView*)gridView didLongPressCellAtIndexPath:(NSIndexPath*)indexPath
-{
-    [self.gridView becomeFirstResponder];
-    
-    UIMenuController* menuController = [UIMenuController sharedMenuController];
-    NRGridViewCell* cell = [self.gridView cellAtIndexPath:indexPath];
-    Rageface *rageface;
-    if (self.searchIsActive) {
-        rageface = [self.filteredData objectAtIndex:indexPath.row];
-    } else {
-        rageface = [[[DataStore sharedInstance] storedData] objectAtIndex:indexPath.row];
-    }
-    
-    UIMenuItem *descriptionMenuItem = [[UIMenuItem alloc] initWithTitle:rageface.humanSearchableDescription action:@selector(handleTest:)];
-    menuController.arrowDirection = UIMenuControllerArrowUp;
-    [menuController setMenuItems:[NSArray arrayWithObject:descriptionMenuItem]];
-    [menuController setTargetRect:cell.frame 
-                           inView:self.gridView];
-    
-    [menuController setMenuVisible:YES animated:YES];
-}
-
-#pragma mark - UIMenuController Actions
-
-- (void)handleTest:(id)sender
-{
-    [self.gridView unhighlightPressuredCellAnimated:YES];
-}
-
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-{
-    return (action == @selector(handleTest:));
-}
 
 #pragma mark - View lifecycle
 
@@ -308,8 +92,8 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
     self.view.contentMode = UIViewContentModeRedraw;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        self.view.layer.cornerRadius = 5;
-//        self.view.layer.masksToBounds = YES;
+        //        self.view.layer.cornerRadius = 5;
+        //        self.view.layer.masksToBounds = YES;
     } else {
         ;
     }
@@ -319,37 +103,51 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 {
     [super viewDidLoad];
     
+    {
+        self.ragefacesFRC = [Rageface fetchAllSortedBy:@"timesCopied" ascending:NO withPredicate:nil groupBy:nil];
+        self.ragefacesFRC.delegate = self;
+        [self.ragefacesFRC performFetch:nil];
+    } // Set up NSFetchedResultsController
+    
     self.queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     
     {
-        self.gridView = [[NRGridView alloc] initWithLayoutStyle:NRGridViewLayoutStyleVertical];
+        self.layout = [[UICollectionViewFlowLayout alloc] init];
+        self.layout.minimumInteritemSpacing = 0.0;
+        self.layout.minimumLineSpacing = 0.0;
+        self.layout.sectionInset = UIEdgeInsetsMake(0.0, 10.0, 10.0, 10.0);
+        self.gridView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:layout];
         self.gridView.delegate = self;
         self.gridView.dataSource = self;
-        self.gridView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        self.gridView.frame = self.view.frame;
-        [self.view addSubview:self.gridView];
         
-        self.gridView.cellSize = CGSizeFromCellSize(self.currentCellSize);
+        self.gridView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.gridView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
         self.gridView.alwaysBounceVertical = YES;
+        [self.view addSubview:self.gridView];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            self.gridView.layer.cornerRadius = 5;
-            self.gridView.layer.masksToBounds = YES;
-        } else {
-            ;
-        }
-
+        [self.gridView registerClass:[RagefaceCell class] forCellWithReuseIdentifier:[RagefaceCell cellIdentifier]];
+        
+        
+        //        self.gridView.cellSize = CGSizeFromCellSize(self.currentCellSize);
+        
+        
+        //        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        //            self.gridView.layer.cornerRadius = 5;
+        //            self.gridView.layer.masksToBounds = YES;
+        //        } else {
+        //            ;
+        //        }
+        
     } // Grid View Setup
     
     {
-//        self.settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, -44.0, 44, 44)];
-//        settingsButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-//        [settingsButton setImage:[UIImage imageNamed:@"settings"] forState:UIControlStateNormal];
-//        [settingsButton setImage:[UIImage imageNamed:@"settings_pressed"] forState:UIControlStateHighlighted];
-//        settingsButton.contentMode = UIViewContentModeCenter;
-//        settingsButton.showsTouchWhenHighlighted = YES;
-//        [self.gridView addSubview:settingsButton];
+        //        self.settingsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-44, -44.0, 44, 44)];
+        //        settingsButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        //        [settingsButton setImage:[UIImage imageNamed:@"settings"] forState:UIControlStateNormal];
+        //        [settingsButton setImage:[UIImage imageNamed:@"settings_pressed"] forState:UIControlStateHighlighted];
+        //        settingsButton.contentMode = UIViewContentModeCenter;
+        //        settingsButton.showsTouchWhenHighlighted = YES;
+        //        [self.gridView addSubview:settingsButton];
     } // Settings Button
     
     {
@@ -390,10 +188,10 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
         self.logoHeaderView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
         self.logoHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.logoHeaderView.contentMode = UIViewContentModeCenter;
-        self.logoHeaderView.frame = CGRectMake(0, 
+        self.logoHeaderView.frame = CGRectMake(0,
                                                -(self.logoHeaderView.frame.size.height + self.searchBar.frame.size.height),
                                                self.view.frame.size.width,
-                                               self.logoHeaderView.frame.size.height); 
+                                               self.logoHeaderView.frame.size.height);
         [self.gridView addSubview:self.logoHeaderView];
     } // Add Logo Header that is only visible when scrolling
     
@@ -421,19 +219,14 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    
     [UIView animateWithDuration:0.33 animations:^{
         self.gridView.contentOffset = CGPointMake(0, -10);
     }];
     
     [self.gridView becomeFirstResponder];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        for (Rageface *rageface in [[DataStore sharedInstance] storedData]) {
-            UIImage *thumb = rageface.thumbnail;
-            thumb = nil;
-        }
-    });
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -454,6 +247,210 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
         return YES;
     }
 }
+
+#pragma mark - UICollectionViewDatasource
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    if (self.searchIsActive) {
+        return 1;
+    } else {
+        return 1;     //FIRST RELEASE
+    }
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    //return 0; //For Screenshotting :)
+    
+    if (self.searchIsActive) {
+        return self.filteredData.count;
+    } else {
+        if (section == 0) {
+            return self.ragefacesFRC.fetchedObjects.count;
+        } else if (section == 1) {
+            //FIRST RELEASE
+        }
+    }
+    
+    NSAssert(NO, @"More than two sections; this wasn't planned O_o"); return 0;
+}
+
+// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *identifier = [RagefaceCell cellIdentifier];
+    RagefaceCell* cell = (RagefaceCell*)[self.gridView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    Rageface *rageface;
+    if (self.searchIsActive) {
+        rageface = [self.filteredData objectAtIndex:indexPath.row];
+    } else {
+        rageface = self.ragefacesFRC.fetchedObjects[indexPath.row];
+    }
+    
+    cell.rageface = rageface;
+    
+    return cell;
+}
+
+
+//- (UIView*)gridView:(NRGridView*)gridView viewForHeaderInSection:(NSInteger)section
+//{
+//    return nil; //FIRST RELEASE
+//    
+//    UIImage *sectionHeaderImage;
+//    
+//    if (searchIsActive) {
+//        return nil;
+//    } else {
+//        if (section == 1) {
+//            sectionHeaderImage = [[UIImage imageNamed:@"favoritesHeaderBackground"] stretchableImageWithLeftCapWidth:100 topCapHeight:0];
+//        } else {
+//            sectionHeaderImage = [[UIImage imageNamed:@"allRagefacesHeaderBackground"] stretchableImageWithLeftCapWidth:100 topCapHeight:0];
+//        } 
+//    }
+//    
+//    UIImageView *headerImageView = [[UIImageView alloc] initWithImage:sectionHeaderImage];
+//    return headerImageView;
+//}
+
+//- (CGFloat)gridView:(NRGridView*)gridView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 0; //FIRST RELEASE
+//    
+//    if (searchIsActive) {
+//        return 0;
+//    } else {
+//        return 30;
+//    }
+//    
+//}
+
+#pragma mark - UICollectionViewDelegate
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    {
+        NSAssert(collectionView == self.gridView, @"Mixed up Gridviews");
+    } // Preconditions
+    
+//    [self.gridView deselectItemAtIndexPath:indexPath animated:YES];
+    
+    RagefaceCell* cell = (RagefaceCell*)[self.gridView cellForItemAtIndexPath:indexPath];
+    
+    Rageface *rageface;
+    if (self.searchIsActive) {
+        rageface = self.filteredData[indexPath.row];
+    } else {
+        rageface = self.ragefacesFRC.fetchedObjects[indexPath.row];
+    }
+    
+    {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        [pasteboard setData:UIImagePNGRepresentation(rageface.imageForSending)
+          forPasteboardType:(NSString*)kUTTypePNG];
+    } // Copy to clipboard
+    
+    rageface.timesCopied++;
+    
+    {
+        UIImageView *animationView = [[UIImageView alloc] initWithFrame:cell.contentView.frame];
+        animationView.contentMode = UIViewContentModeScaleAspectFit;
+        animationView.image = rageface.imageAtNativeResolution;
+        animationView.center = [self.view convertPoint:cell.center fromView:self.gridView];
+        [self.view addSubview:animationView];
+        
+        cell.alpha = 0.0;
+        [UIView animateWithDuration:0.67
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             animationView.layer.transform = CATransform3DMakeScale(8, 8, 1);
+                             animationView.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [animationView removeFromSuperview];
+                             
+                             {
+                                 cell.alpha = 1.0;
+                                 CAKeyframeAnimation *animation = [CAKeyframeAnimation
+                                                                   animationWithKeyPath:@"transform"];
+                                 
+                                 CATransform3D scale1 = CATransform3DMakeScale(0.01, 0.01, 1);
+                                 CATransform3D scale2 = CATransform3DMakeScale(1.2, 1.2, 1);
+                                 CATransform3D scale3 = CATransform3DMakeScale(0.85, 0.85, 1);
+                                 CATransform3D scale4 = CATransform3DMakeScale(1.0, 1.0, 1);
+                                 
+                                 NSArray *frameValues = [NSArray arrayWithObjects:
+                                                         [NSValue valueWithCATransform3D:scale1],
+                                                         [NSValue valueWithCATransform3D:scale2],
+                                                         [NSValue valueWithCATransform3D:scale3],
+                                                         [NSValue valueWithCATransform3D:scale4],
+                                                         nil];
+                                 [animation setValues:frameValues];
+                                 
+                                 NSArray *frameTimes = [NSArray arrayWithObjects:
+                                                        [NSNumber numberWithFloat:0.0],
+                                                        [NSNumber numberWithFloat:0.5],
+                                                        [NSNumber numberWithFloat:0.9],
+                                                        [NSNumber numberWithFloat:1.0],
+                                                        nil];
+                                 [animation setKeyTimes:frameTimes];
+                                 
+                                 animation.fillMode = kCAFillModeRemoved;
+                                 animation.removedOnCompletion = YES;
+                                 animation.duration = 0.3;
+                                 [cell.layer addAnimation:animation forKey:@"Recharging"];
+                                 
+                             } // "Recharge" Pop-In animation
+                         }];
+        
+    } // Fire Copy Animation
+    
+    [LSSound play:@"copy.caf"];
+}
+
+
+- (void)animationDidStop:(CAAnimation *)theAnimation
+                finished:(BOOL)flag
+{
+    [self.animationImageView removeFromSuperview];
+    self.animationImageView = nil;
+}
+
+//- (void)gridView:(NRGridView*)gridView didLongPressCellAtIndexPath:(NSIndexPath*)indexPath
+//{
+//    [self.gridView becomeFirstResponder];
+//    
+//    UIMenuController* menuController = [UIMenuController sharedMenuController];
+//    NRGridViewCell* cell = [self.gridView cellAtIndexPath:indexPath];
+//    Rageface *rageface;
+//    if (self.searchIsActive) {
+//        rageface = [self.filteredData objectAtIndex:indexPath.row];
+//    } else {
+//        rageface = self.ragefacesFRC.fetchedObjects[indexPath.row];
+//    }
+//    
+//    UIMenuItem *descriptionMenuItem = [[UIMenuItem alloc] initWithTitle:rageface.humanSearchableDescription action:@selector(handleTest:)];
+//    menuController.arrowDirection = UIMenuControllerArrowUp;
+//    [menuController setMenuItems:[NSArray arrayWithObject:descriptionMenuItem]];
+//    [menuController setTargetRect:cell.frame 
+//                           inView:self.gridView];
+//    
+//    [menuController setMenuVisible:YES animated:YES];
+//}
+//
+//#pragma mark - UIMenuController Actions
+//
+//- (void)handleTest:(id)sender
+//{
+//    [self.gridView unhighlightPressuredCellAnimated:YES];
+//}
+//
+//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+//{
+//    return (action == @selector(handleTest:));
+//}
 
 #pragma mark - Pinch
 - (void)pinch:(UIPinchGestureRecognizer*)sender
@@ -486,47 +483,53 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
             
             //Don't let cells become too tiny, as performance degrades...
             CGFloat scaledSizeWidth = size.width*scale;
-            scaledSizeWidth = floor( MAX(scaledSizeWidth, (320.0 / 7) + 1) );
-            scaledSizeWidth = floor( MIN(scaledSizeWidth, (320.0 / 3) - 1) );
+            scaledSizeWidth = floor( MAX(scaledSizeWidth, (300.0 / 7) + 1.0) );
+            scaledSizeWidth = floor( MIN(scaledSizeWidth, (300.0 / 1)) );
             
-            self.gridView.cellSize = CGSizeMake(scaledSizeWidth, scaledSizeWidth);
+            self.layout.itemSize = CGSizeMake(scaledSizeWidth, scaledSizeWidth);
         }
             break;
         case UIGestureRecognizerStateEnded:
         {
-            CGFloat width = self.gridView.cellSize.width;
-            if (width <= self.gridView.bounds.size.width/6) {
+            CGFloat width = self.layout.itemSize.width;
+            if (width <= 300/6) {
                 [self changeCellSizeTo:CellSize6Columns];
-            } else if (width <= self.gridView.bounds.size.width/5) {
+            } else if (width <= 300/5) {
                 [self changeCellSizeTo:CellSize5Columns];
-            } else if (width <= self.gridView.bounds.size.width/4) {
+            } else if (width <= 300/4) {
                 [self changeCellSizeTo:CellSize4Columns];
-            } else {
+            } else if (width <= 300/3) {
                 [self changeCellSizeTo:CellSize3Columns];
+            } else if (width <= 300/2) {
+                [self changeCellSizeTo:CellSize2Columns];
+            } else {
+                [self changeCellSizeTo:CellSize1Columns];
             }
         }
             break;
         default:
             break;
     }
+  
 }
 
 - (void)changeCellSizeTo:(CellSize)cellSize
 {
     if (cellSize < CellSize6Columns) cellSize = CellSize6Columns;
-    if (cellSize > CellSize3Columns) cellSize = CellSize3Columns;
+    if (cellSize > CellSize1Columns) cellSize = CellSize1Columns;
     
-    CGFloat distance = ABS(self.gridView.cellSize.width - CGSizeFromCellSize(cellSize).width) / self.gridView.cellSize.width;
+    CGFloat distance = ABS(self.layout.itemSize.width - CGSizeFromCellSize(cellSize).width) / self.layout.itemSize.width;
     
-    [PRTweenCGSizeLerp lerp:self.gridView
-                   property:@"cellSize"
-                       from:self.gridView.cellSize
+    [PRTweenCGSizeLerp lerp:self.layout
+                   property:@"itemSize"
+                       from:self.layout.itemSize
                          to:CGSizeFromCellSize(cellSize)
                    duration:0.5 * distance + 0.25
              timingFunction:&PRTweenTimingFunctionExpoOut
                 updateBlock:nil
               completeBlock:^{
                   self.currentCellSize = cellSize;
+
                   [[NSUserDefaults standardUserDefaults] setInteger:cellSize forKey:CellSizeKey];
               }];
     
@@ -536,13 +539,16 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [self.gridView scrollRectToVisible:self.searchBar.frame animated:YES];
+//    [self.gridView scrollRectToVisible:self.searchBar.frame animated:YES];
+//    [self.gridView scrollToItemAtIndexPath:[[NSIndexPath alloc] initWithIndex:0]
+//                          atScrollPosition:UICollectionViewScrollPositionTop
+//                                  animated:YES];
     
     [self.searchBar setShowsCancelButton:YES animated:YES];
     [self.searchBar setCloseButtonTitle:@"" forState:UIControlStateNormal];
 
     [self.filteredData removeAllObjects];
-    [self.filteredData addObjectsFromArray:[[DataStore sharedInstance] storedData]];
+    [self.filteredData addObjectsFromArray:self.ragefacesFRC.fetchedObjects];
     self.searchIsActive = YES;
 }
 
@@ -571,12 +577,14 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 {
     if ([searchText isEqualToString:@""]) {
         [self.filteredData removeAllObjects];
-        [self.filteredData addObjectsFromArray:[[DataStore sharedInstance] storedData]];
+        [self.filteredData addObjectsFromArray:self.ragefacesFRC.fetchedObjects];
+        
     } else {
         [self filterContentForSearchText:searchText];
     }
     
-    [gridView reloadData];
+    NSIndexSet *set = [[NSIndexSet alloc] initWithIndex:0];
+    [self.gridView reloadSections:set];
 }
 
 -(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
@@ -592,8 +600,8 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
 	[self.filteredData removeAllObjects]; // First clear the filtered array.
 
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
-	for (Rageface *rageface in [[DataStore sharedInstance] storedData])
+  
+	for (Rageface *rageface in self.ragefacesFRC.fetchedObjects)
 	{
         NSString *compareText = [[rageface.humanSearchableDescription stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
         
@@ -634,5 +642,97 @@ static NSString *kBebasNeueFontName = @"Bebas Neue";
     animation.timingFunctions = timings;
     return animation;
 }
+
+#pragma mark - Restkit Data Loading
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects
+{
+//    NSLog(@"%@", objectLoader.response.bodyAsString);
+//    NSLog(@"%@", objects.description);
+    
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+}
+
+-(void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error.description);
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+//{
+//
+//}
+
+//-(void)controller:(NSFetchedResultsController *)controller
+// didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
+//          atIndex:(NSUInteger)sectionIndex
+//    forChangeType:(NSFetchedResultsChangeType)type
+//{
+//    NSIndexSet *set = [[NSIndexSet alloc] initWithIndex:sectionIndex];
+//    switch(type) {
+//            
+//        case NSFetchedResultsChangeInsert:
+//            [self.gridView insertSections:set];
+//            break;
+//            
+//        case NSFetchedResultsChangeDelete:
+//            [self.gridView deleteSections:set];
+//            break;
+//            
+//        case NSFetchedResultsChangeUpdate:
+//            [self.gridView reloadSections:set];
+//            break;
+//    }
+//}
+
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [self.gridView reloadData];
+//            [self.gridView insertItemsAtIndexPaths:@[ newIndexPath ]];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.gridView reloadData];
+//            [self.gridView deleteItemsAtIndexPaths:@[ indexPath ]];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+//            [self.gridView reloadItemsAtIndexPaths:@[ in dexPath ]];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [self.gridView moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
+            break;
+    }
+}
+
+//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+//{
+//    
+//}
+
+#pragma mark - Properties
+@synthesize layout;
+@synthesize gridView;
+@synthesize logoHeaderView;
+@synthesize searchBar;
+@synthesize settingsButton;
+@synthesize filteredData;
+@synthesize searchIsActive;
+@synthesize animationImageView;
+@synthesize queue;
+@synthesize pinchGR;
+@synthesize currentCellSize;
 
 @end

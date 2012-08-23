@@ -1,0 +1,4 @@
+OTHER_LDFLAGS = -ObjC -framework Accelerate -framework AssetsLibrary -framework CFNetwork -framework CoreData -framework CoreImage -framework Foundation -framework ImageIO -framework MobileCoreServices -framework QuartzCore -framework Security -framework SystemConfiguration
+PODS_ROOT = ${SRCROOT}/Pods
+ALWAYS_SEARCH_USER_PATHS = YES
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/FileMD5Hash" "${PODS_ROOT}/Headers/ISO8601DateFormatter" "${PODS_ROOT}/Headers/JSONKit" "${PODS_ROOT}/Headers/LibComponentLogging-Core" "${PODS_ROOT}/Headers/LibComponentLogging-NSLog" "${PODS_ROOT}/Headers/LibComponentLogging-NSLog/LibComponentLogging" "${PODS_ROOT}/Headers/NSData+Base64" "${PODS_ROOT}/Headers/NYXImagesKit" "${PODS_ROOT}/Headers/RestKit" "${PODS_ROOT}/Headers/SDWebImage" "${PODS_ROOT}/Headers/SEHumanizedTimeDiff" "${PODS_ROOT}/Headers/SOCKit" "${PODS_ROOT}/Headers/UIDeviceAddition" "${PODS_ROOT}/Headers/cocoa-oauth"

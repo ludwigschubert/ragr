@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIImage+NYX_Filtering.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIImage(NYX_Filtering)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>
+			
+			<NodeRef refid="4"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/brightenWithValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)brightenWithValue:(float)factor</Declaration>
+			
+			
+			<Anchor>//api/name/brightenWithValue:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/contrastAdjustmentWithValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)contrastAdjustmentWithValue:(float)value</Declaration>
+			
+			
+			<Anchor>//api/name/contrastAdjustmentWithValue:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/edgeDetectionWithBias:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)edgeDetectionWithBias:(NSInteger)bias</Declaration>
+			
+			
+			<Anchor>//api/name/edgeDetectionWithBias:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/embossWithBias:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)embossWithBias:(NSInteger)bias</Declaration>
+			
+			
+			<Anchor>//api/name/embossWithBias:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/gammaCorrectionWithValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)gammaCorrectionWithValue:(float)value</Declaration>
+			
+			
+			<Anchor>//api/name/gammaCorrectionWithValue:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/grayscale</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)grayscale</Declaration>
+			
+			
+			<Anchor>//api/name/grayscale</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/invert</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)invert</Declaration>
+			
+			
+			<Anchor>//api/name/invert</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/opacity:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)opacity:(float)value</Declaration>
+			
+			
+			<Anchor>//api/name/opacity:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/sepia</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)sepia</Declaration>
+			
+			
+			<Anchor>//api/name/sepia</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/sharpenWithBias:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)sharpenWithBias:(NSInteger)bias</Declaration>
+			
+			
+			<Anchor>//api/name/sharpenWithBias:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Filtering)/unsharpenWithBias:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Filtering.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)unsharpenWithBias:(NSInteger)bias</Declaration>
+			
+			
+			<Anchor>//api/name/unsharpenWithBias:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

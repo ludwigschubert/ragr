@@ -2,24 +2,21 @@
 //  Rageface.h
 //  ragr
 //
-//  Created by Ludwig Schubert on 10.03.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ludwig Schubert on 16.08.12.
+//
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface Rageface : NSObject
 
-@property (nonatomic, readonly) UIImage *thumbnail;
-@property (nonatomic, readonly) UIImage *fullResolutionImage;
-@property (nonatomic, readonly) NSString *humanSearchableDescription;
-@property (nonatomic, assign, getter=isHasCachedImage) BOOL hasCachedImage;
+@interface Rageface : NSManagedObject
 
-@property (nonatomic, copy) NSString *filename;
-@property (nonatomic, copy) NSString *humanReadableDescription;
-@property (nonatomic, copy) NSString *tags;
-@property (nonatomic, copy) NSString *category;
-@property (nonatomic, assign) NSUInteger timesCopied;
-@property (nonatomic, assign) NSUInteger views;
+@property (nonatomic, retain) NSNumber * idFromAPI;
+@property (nonatomic, retain) NSNumber * revision;
+@property (nonatomic, retain) NSString * category;
+@property (nonatomic, retain) id url;
+@property (nonatomic, retain) NSString * tags;
+@property (nonatomic, retain) NSNumber * timesCopied;
 
 @end

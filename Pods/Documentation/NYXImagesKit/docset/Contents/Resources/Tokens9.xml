@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIImage+NYX_Saving.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIImage(NYX_Saving)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>
+			
+			<NodeRef refid="9"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToURL:uti:backgroundFillColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToURL:(NSURL *)url uti:(CFStringRef)uti backgroundFillColor:(UIColor *)fillColor</Declaration>
+			
+			
+			<Anchor>//api/name/saveToURL:uti:backgroundFillColor:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToURL:type:backgroundFillColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToURL:(NSURL *)url type:(NYXImageType)type backgroundFillColor:(UIColor *)fillColor</Declaration>
+			
+			
+			<Anchor>//api/name/saveToURL:type:backgroundFillColor:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToURL:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/saveToURL:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToPath:uti:backgroundFillColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToPath:(NSString *)path uti:(CFStringRef)uti backgroundFillColor:(UIColor *)fillColor</Declaration>
+			
+			
+			<Anchor>//api/name/saveToPath:uti:backgroundFillColor:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToPath:type:backgroundFillColor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToPath:(NSString *)path type:(NYXImageType)type backgroundFillColor:(UIColor *)fillColor</Declaration>
+			
+			
+			<Anchor>//api/name/saveToPath:type:backgroundFillColor:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToPath:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToPath:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/saveToPath:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/saveToPhotosAlbum</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>- (BOOL)saveToPhotosAlbum</Declaration>
+			
+			
+			<Anchor>//api/name/saveToPhotosAlbum</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Saving)/extensionForUTI:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Saving.h</DeclaredIn>			
+			
+			<Declaration>+ (NSString *)extensionForUTI:(CFStringRef)uti</Declaration>
+			
+			
+			<Anchor>//api/name/extensionForUTI:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

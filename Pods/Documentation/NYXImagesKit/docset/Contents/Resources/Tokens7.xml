@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIImage+NYX_Resizing.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIImage(NYX_Resizing)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Resizing.h</DeclaredIn>
+			
+			<NodeRef refid="7"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Resizing)/cropToSize:usingMode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Resizing.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)cropToSize:(CGSize)newSize usingMode:(NYXCropMode)cropMode</Declaration>
+			
+			
+			<Anchor>//api/name/cropToSize:usingMode:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Resizing)/cropToSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Resizing.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)cropToSize:(CGSize)newSize</Declaration>
+			
+			
+			<Anchor>//api/name/cropToSize:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Resizing)/scaleByFactor:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Resizing.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)scaleByFactor:(float)scaleFactor</Declaration>
+			
+			
+			<Anchor>//api/name/scaleByFactor:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/UIImage(NYX_Resizing)/scaleToFitSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIImage+Resizing.h</DeclaredIn>			
+			
+			<Declaration>- (UIImage *)scaleToFitSize:(CGSize)newSize</Declaration>
+			
+			
+			<Anchor>//api/name/scaleToFitSize:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

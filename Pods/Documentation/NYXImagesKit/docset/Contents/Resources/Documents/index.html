@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>NYXImagesKit 2.1.2 Reference</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 789)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="index.html">NYXImagesKit 2.1.2 </a></h1>
+				<a id="developerHome" href="index.html">Benjamin Godard</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">NYXImagesKit 2.1.2 Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar"></ul>
+		</header>
+		<article>
+			<div id="overview_contents" role="main">
+				<div class="main-navigation navigation-top">
+					<a href="hierarchy.html">Next</a>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">NYXImagesKit 2.1.2 Reference</h1>
+					</div>		
+				</div>
+				<div id="container">
+					
+					<div class="section section-overview index-overview">
+						
+						
+						<h1>NYXImagesKit</h1>
+
+<p>This is a project for iOS which regroups a collection of useful <em>UIImage</em> categories to handle operations such as filtering, blurring, enhancing, masking, reflecting, resizing, rotating, saving. There is also a subclass of <em>UIImageView</em> to load an image asynchronously from a URL and display it as it is downloaded.</p>
+
+<p>It requires at least <em>iOS 4.2</em>.</p>
+
+<p><strong><em>NYXImagesKit</em></strong> is designed to be very efficient, <strong>vDSP</strong> is used when possible, and on <em>iOS 5</em>, some filters use <strong>Core Image</strong> or <strong>vImage</strong> to be as fast as possible.</p>
+
+<p>The project is a static library so that you don&rsquo;t have to import the sources in your own project and build them each time.</p>
+
+<h3>ARC Support</h3>
+
+<p><strong><em>NYXImagesKit</em></strong> fully supports <strong>ARC</strong> out of the box, there is no configuration necessary. Also, as it is a library you can use it without problems in a <strong>non-ARC</strong> project.</p>
+
+<h3>Installation</h3>
+
+<p>First open the <strong>NYXImagesKit.xcodeproj</strong> and build the library, then import the library and the headers in your project, and finally link with these frameworks :</p>
+
+<ul>
+<li><strong>Accelerate</strong></li>
+<li><strong>AssetsLibrary</strong></li>
+<li><strong>ImageIO</strong></li>
+<li><strong>MobileCoreServices</strong></li>
+<li><strong>QuartzCore</strong></li>
+<li><strong>CoreImage</strong>, if you target <em>iOS 4.2 &amp; 4.3</em> you must weak link.</li>
+</ul>
+
+
+<p>Or if you want, you can add the sources to your project and build them along.</p>
+
+<h3>UIImage+Filtering</h3>
+
+<p>This category allows you to apply filters on a <em>UIImage</em> object, currently there are 11 filters :</p>
+
+<ol>
+<li>Brighten</li>
+<li>Contrast adjustment</li>
+<li>Edge detection</li>
+<li>Emboss</li>
+<li>Gamma correction</li>
+<li>Grayscale</li>
+<li>Invert</li>
+<li>Opacity</li>
+<li>Sepia</li>
+<li>Sharpen</li>
+<li>Unsharpen</li>
+</ol>
+
+
+<h3>UIImage+Blurring</h3>
+
+<p>This category is composed of a single method to blur an <em>UIImage</em>. On <em>iOS 4</em>, blurring is done using <strong>vDSP</strong> and on <em>iOS 5</em> it is done using <strong>vImage</strong> and it is about <strong>4x</strong> times faster.</p>
+
+<pre><code>[myImage gaussianBlurWithBias:0];
+</code></pre>
+
+<h3>UIImage+Masking</h3>
+
+<p>This category is composed of a single method which allow to mask an image with another image, you just have to create the mask image you desire.</p>
+
+<pre><code>UIImage* masked = [myImage maskWithImage:[UIImage imageNamed:@"mask.png"]];
+</code></pre>
+
+<h3>UIImage+Resizing</h3>
+
+<p>This category can be used to crop or to scale images.</p>
+
+<h4>Cropping</h4>
+
+<p>You can crop your image by 9 different ways :</p>
+
+<ol>
+<li>Top left</li>
+<li>Top center</li>
+<li>Top right</li>
+<li>Bottom left</li>
+<li>Bottom center</li>
+<li>Bottom right</li>
+<li>Left center</li>
+<li>Right center</li>
+<li><p>Center</p>
+
+<p> UIImage* cropped = [myImage cropToSize:(CGSize){width, height} usingMode:NYXCropModeCenter];</p></li>
+</ol>
+
+
+<p><code>NYXCropMode</code> is an enum type which can be found in the header file, it is used to represent the 9 modes above.</p>
+
+<h4>Scaling</h4>
+
+<p>You have the choice between two methods to scale images, the two methods will keep the aspect ratio of the original image.</p>
+
+<pre><code>UIImage* scaled1 = [myImage scaleByFactor:0.5f];
+UIImage* scaled2 = [myImage scaleToFitSize:(CGSize){width, height}];
+</code></pre>
+
+<h3>UIImage+Rotating</h3>
+
+<p>With this category you can rotate or flip an <em>UIImage</em>, flipping is useful if you want to create a reflect effect.</p>
+
+<pre><code>UIImage* rotated1 = [myImage rotateInDegrees:217.0f];
+UIImage* rotated2 = [myImage rotateInRadians:M_PI_2];
+UIImage* flipped1 = [myImage verticalFlip];
+UIImage* flipped2 = [myImage horizontalFlip];
+</code></pre>
+
+<h3>UIImage+Reflection</h3>
+
+<p>This category was written by Matthias Tretter (@myell0w) and is composed of a single method to create a reflected image.</p>
+
+<pre><code>UIImage* reflected = [myImage reflectedImageWithHeight:myImage.size.height fromAlpha:0.0f toAlpha:0.5f];
+</code></pre>
+
+<h3>UIImage+Enhancing</h3>
+
+<p>This category works only on <em>iOS 5</em> because it uses <strong>Core Image</strong>, it allows to enhance an image or to perform red eye correction.</p>
+
+<pre><code>[myImage autoEnhance];
+[myImage redEyeCorrection];
+</code></pre>
+
+<h3>UIImage+Saving</h3>
+
+<p>This category allows you to save an <em>UIImage</em> at a specified path or file URL or to your Photos album, there are five types supported :</p>
+
+<ol>
+<li>BMP</li>
+<li>GIF</li>
+<li>JPG</li>
+<li>PNG</li>
+<li>TIFF</li>
+</ol>
+
+
+<p>To use it, you must link with <strong>ImageIO.framework</strong>, <strong>MobileCoreServices.framework</strong> and <strong>AssetsLibrary.framework</strong>.</p>
+
+<pre><code>[myImage saveToURL:url type:NYXImageTypeJPEG backgroundFillColor:nil];
+[myImage saveToPath:path type:NYXImageTypeTIFF backgroundFillColor:[UIColor yellowColor]];
+[myImage saveToPhotosAlbum];
+</code></pre>
+
+<p>There is also two other methods which take only the path or URL as parameter and save the image in PNG, because it&rsquo;s the preferred format for iOS.</p>
+
+<p>If your image contains transparent zone and you save it in a format that doesn&rsquo;t support alpha, a fill color will be used, if you don&rsquo;t specify one, the default color will be white.</p>
+
+<h3><a href="Classes/NYXProgressiveImageView.html">NYXProgressiveImageView</a></h3>
+
+<p>This is a subclass of <em>UIImageView</em> to load asynchronously an image from an URL and display it as it is being downloaded. Image caching is supported.
+For more informations see <a href="http://www.cocoaintheshell.com/2012/01/nyximageskit-class-nyxprogressiveimageview/">http://www.cocoaintheshell.com/2012/01/nyximageskit-class-nyxprogressiveimageview/</a> and <a href="http://www.cocoaintheshell.com/2011/05/progressive-images-download-imageio/">http://www.cocoaintheshell.com/2011/05/progressive-images-download-imageio/</a>.</p>
+
+<h3>License</h3>
+
+<p><strong><em>NYXImagesKit</em></strong> is released under the <em>Simplified BSD license</em>, see <strong>LICENSE.txt</strong>.</p>
+
+<p>I hope you will find this useful, and, feel free to contribute !</p>
+
+<p>Blog : <a href="http://www.cocoaintheshell.com/">http://www.cocoaintheshell.com/</a></p>
+
+<p>Twitter : @Nyx0uf</p>
+						
+						
+					</div>
+					
+                        
+                    
+					
+					
+					<div class="index-column">
+						<h2 class="index-title">Class References</h2>
+						<ul>
+							
+							<li><a href="Classes/NYXProgressiveImageView.html">NYXProgressiveImageView</a></li>
+							
+						</ul>
+					</div>
+					
+					
+						
+					<div class="index-column">
+						
+						<h2 class="index-title">Protocol References</h2>
+						<ul>
+							
+							<li><a href="Protocols/NYXProgressiveImageViewDelegate.html">NYXProgressiveImageViewDelegate</a></li>
+							
+						</ul>
+						
+						
+						<h2 class="index-title">Category References</h2>
+						<ul>
+							
+							<li><a href="Categories/UIImage+NYX_Blurring.html">UIImage(NYX_Blurring)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Enhancing.html">UIImage(NYX_Enhancing)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Filtering.html">UIImage(NYX_Filtering)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Masking.html">UIImage(NYX_Masking)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Reflection.html">UIImage(NYX_Reflection)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Resizing.html">UIImage(NYX_Resizing)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Rotating.html">UIImage(NYX_Rotating)</a></li>
+							
+							<li><a href="Categories/UIImage+NYX_Saving.html">UIImage(NYX_Saving)</a></li>
+							
+						</ul>
+						
+					</div>
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<a href="hierarchy.html">Next</a>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 Benjamin Godard. All rights reserved. (Last updated: 2012-08-23)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 789)</a>.</span></p>
+						
+	
+					</div>
+				</div>
+			</div>
+		</article>		
+	</body>
+</html>

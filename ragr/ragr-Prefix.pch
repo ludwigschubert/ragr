@@ -11,7 +11,20 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    
+    #import <RestKit/RestKit.h>
+    #import <RestKit/CoreData.h>
+    #import <RestKit/UI.h>
+
+    #import "Rageface+Restkit.h"
+    #import "Rageface+Thumbnail.h"
+    #import "Rageface.h"
     #import "UISearchBar+TextField.h"
+    #import <NRGridView/NRGridView.h>
+    #import <SDWebImage/UIImageView+WebCache.h>
+    #import <SDWebImage/SDImageCache.h>
+    #import "NSArray+RemoveObjects.h"
+    #import <NYXImagesKit/NYXImagesKit.h>
 #endif
 
 #define CellSizeKey @"de.ludwigschubert.ragr.CellSizeKey"

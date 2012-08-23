@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/NYXProgressiveImageView.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/NYXProgressiveImageView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>
+			
+			<NodeRef refid="1"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NYXProgressiveImageView/loadImageAtURL:</TokenIdentifier>
+			<Abstract type="html">Launch the image download</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>- (void)loadImageAtURL:(NSURL *)url</Declaration>
+			
+			
+			<Anchor>//api/name/loadImageAtURL:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/NYXProgressiveImageView/resetImageCache</TokenIdentifier>
+			<Abstract type="html">This will remove all cached images managed by any NYXProgressiveImageView instances</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>+ (void)resetImageCache</Declaration>
+			
+			
+			<Anchor>//api/name/resetImageCache</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NYXProgressiveImageView/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Delegate (use weak if you target only iOS 5)</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) IBOutlet id&lt;NYXProgressiveImageViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/NYXProgressiveImageView/delegate</TokenIdentifier>
+			<Abstract type="html">Delegate (use weak if you target only iOS 5)</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, assign) IBOutlet id&lt;NYXProgressiveImageViewDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NYXProgressiveImageView/setCaching:</TokenIdentifier>
+			<Abstract type="html">Enable / Disable caching</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, getter=isCaching) BOOL caching</Declaration>
+			
+			
+			<Anchor>//api/name/caching</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/NYXProgressiveImageView/caching</TokenIdentifier>
+			<Abstract type="html">Enable / Disable caching</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, getter=isCaching) BOOL caching</Declaration>
+			
+			
+			<Anchor>//api/name/caching</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NYXProgressiveImageView/setCacheTime:</TokenIdentifier>
+			<Abstract type="html">Cache time in seconds</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic) NSTimeInterval cacheTime</Declaration>
+			
+			
+			<Anchor>//api/name/cacheTime</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/NYXProgressiveImageView/cacheTime</TokenIdentifier>
+			<Abstract type="html">Cache time in seconds</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic) NSTimeInterval cacheTime</Declaration>
+			
+			
+			<Anchor>//api/name/cacheTime</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NYXProgressiveImageView/setDownloading:</TokenIdentifier>
+			<Abstract type="html">Downloading flag</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, getter=isDownloading) BOOL downloading</Declaration>
+			
+			
+			<Anchor>//api/name/downloading</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/NYXProgressiveImageView/downloading</TokenIdentifier>
+			<Abstract type="html">Downloading flag</Abstract>
+			<DeclaredIn>NYXProgressiveImageView.h</DeclaredIn>			
+			
+			<Declaration>@property (nonatomic, readonly, getter=isDownloading) BOOL downloading</Declaration>
+			
+			
+			<Anchor>//api/name/downloading</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>

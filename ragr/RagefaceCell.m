@@ -9,6 +9,12 @@
 #import "RagefaceCell.h"
 #import "Rageface.h"
 
+@interface RagefaceCell ()
+
+@property (nonatomic, strong) UIImageView *imageView;
+
+@end
+
 @implementation RagefaceCell
 
 static NSString* cellIdentifier = @"RagefaceCellIdentifier";
@@ -18,52 +24,73 @@ static NSString* cellIdentifier = @"RagefaceCellIdentifier";
     return cellIdentifier;
 }
 
-- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithReuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame];
     if (self) {
-        self.frame = CGRectZero;
-        self.selectionBackgroundView = nil;
-        self.opaque = YES;
-        self.imageView.opaque = YES;
-        self.imageView.backgroundColor = [UIColor whiteColor];
         
         //Variable size Background Image
         UIImage *cellBackgroundImage = [UIImage imageNamed:@"cellBackground"];
         UIImage *stretchableCellBackgroundImage = [cellBackgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
         self.backgroundView = [[UIImageView alloc] initWithImage:stretchableCellBackgroundImage];
-        self.backgroundView.frame = self.frame;
-        self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        self.autoresizesSubviews = YES;
         
-        self.selectionBackgroundView = nil;
+        //Image View
+        CGRect imageViewFrame = CGRectInset(self.contentView.bounds, 4.0, 4.0);
+        self.imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [self.contentView addSubview:self.imageView];
+        self.contentView.autoresizesSubviews = YES;
+        self.contentView.clipsToBounds = YES; 
     }
     return self;
 }
 
-@synthesize rageface = _rageface;
+- (void)dealloc
+{
+    [ImageManager cancelAllRequestsForCallback:self];
+    self.rageface = nil;
+    self.imageView = nil;
+}
 
-- (void)setRageface:(Rageface *)rageface {
-    _rageface = rageface;
+- (void)prepareForReuse
+{
+    [ImageManager cancelAllRequestsForCallback:self];
     
-    if (_rageface.hasCachedImage) {
-        self.imageView.image = _rageface.thumbnail;
-    } else {
+    self.imageView.image = [UIImage imageNamed:@"loadingIndicator"];
+    [super prepareForReuse];
+}
+
+@synthesize rageface = _rageface;
+- (void)setRageface:(Rageface *)rageface
+{
+    if (_rageface != rageface) {
+        _rageface = rageface;
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-            UIImage *image = rageface.thumbnail;
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                self.imageView.image = image;
-                [self setNeedsLayout];
-                
-                self.alpha = 0.0;
-                [UIView animateWithDuration:0.33
-                                 animations:^{
-                                     self.alpha = 1.0;
-                                 }];
-            });
-        });
+        UIImage *myCachedImage = [SDImageCache.sharedImageCache imageFromKey:_rageface.thumbnailKey];
+        if (myCachedImage) {
+            self.imageView.image = myCachedImage;
+        } else {
+            self.imageView.image = [UIImage imageNamed:@"loadingIndicator"];  
+            [_rageface thumbnailInCallback:^(UIImage *thumbnail, Rageface *rageface) {
+                if (_rageface == rageface) {
+                    self.imageView.image = thumbnail;
+                } else { //this cell got a new rageface before old one could display
+                    ;//TODO
+                }
+            }];
+        }
+        
     }
 }
 
+@synthesize imageView;
+
+#pragma mark - ImageManagerDelegate
+
+- (void)receiveImage:(UIImage*)image ForKey:(NSString*)imageKey
+{
+    self.imageView.image = image;
+    NSAssert([imageKey isEqualToString:self.rageface.thumbnailKey], @"RagefaceCell received wrong image :(");
+}
 @end

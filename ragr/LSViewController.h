@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NRGridView.h"
 
-@interface LSViewController : UIViewController <NRGridViewDelegate, NRGridViewDataSource, UISearchBarDelegate>
-@property (strong, nonatomic) IBOutlet NRGridView *gridView;
-@property (strong, nonatomic) IBOutlet UIView *logoHeaderView;
+@interface LSViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, RKObjectLoaderDelegate, NSFetchedResultsControllerDelegate>
+
+@property (strong, nonatomic) UICollectionView *gridView;
+@property (strong, nonatomic) UIView *logoHeaderView;
 
 @end
